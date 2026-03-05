@@ -21,13 +21,15 @@ const site = {
   menuItems: [
     { path: '/', labelKey: 'nav.home' },
     { path: '/schedule', labelKey: 'nav.schedule', activePath: '/schedule' },
+    { path: '/lecture-request', labelKey: 'nav.lectureRequest', activePath: '/lecture-request' },
     { path: '/my-reservations', labelKey: 'nav.myReservations', activePath: '/my-reservations', auth: true },
     { path: '/admin', labelKey: 'nav.admin', activePath: '/admin', admin: true }
   ],
 
   footerLinks: [
     { path: '/', labelKey: 'nav.home' },
-    { path: '/schedule', labelKey: 'nav.schedule' }
+    { path: '/schedule', labelKey: 'nav.schedule' },
+    { path: '/lecture-request', labelKey: 'nav.lectureRequest' }
   ]
 };
 

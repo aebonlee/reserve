@@ -13,9 +13,12 @@ const Login = lazy(() => import('../pages/Login'));
 const Register = lazy(() => import('../pages/Register'));
 const ForgotPassword = lazy(() => import('../pages/ForgotPassword'));
 const MyPage = lazy(() => import('../pages/MyPage'));
+const LectureRequest = lazy(() => import('../pages/LectureRequest'));
+const LectureRequestSubmit = lazy(() => import('../pages/LectureRequestSubmit'));
 const AdminDashboard = lazy(() => import('../pages/admin/AdminDashboard'));
 const ScheduleManage = lazy(() => import('../pages/admin/ScheduleManage'));
 const ReservationManage = lazy(() => import('../pages/admin/ReservationManage'));
+const LectureRequestManage = lazy(() => import('../pages/admin/LectureRequestManage'));
 const NotFound = lazy(() => import('../pages/NotFound'));
 
 const Loading = () => (
@@ -38,6 +41,10 @@ const PublicLayout = () => {
             <Route path="/schedule" element={<Schedule />} />
             <Route path="/schedule/:id" element={<ScheduleDetail />} />
 
+            {/* Lecture Requests */}
+            <Route path="/lecture-request" element={<LectureRequest />} />
+            <Route path="/lecture-request/new" element={<LectureRequestSubmit />} />
+
             {/* Reservations */}
             <Route path="/my-reservations" element={<AuthGuard><MyReservations /></AuthGuard>} />
 
@@ -51,6 +58,7 @@ const PublicLayout = () => {
             <Route path="/admin" element={<AdminGuard><AdminDashboard /></AdminGuard>} />
             <Route path="/admin/schedules" element={<AdminGuard><ScheduleManage /></AdminGuard>} />
             <Route path="/admin/reservations" element={<AdminGuard><ReservationManage /></AdminGuard>} />
+            <Route path="/admin/lecture-requests" element={<AdminGuard><LectureRequestManage /></AdminGuard>} />
 
             {/* 404 */}
             <Route path="*" element={<NotFound />} />

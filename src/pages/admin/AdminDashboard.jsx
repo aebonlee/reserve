@@ -5,10 +5,11 @@ import SEOHead from '../../components/SEOHead';
 import StatsCard from '../../components/admin/StatsCard';
 import { getSchedules } from '../../utils/scheduleService';
 import { getReservationStats, getAllReservations } from '../../utils/reservationService';
+import { getLectureRequestStats } from '../../utils/lectureRequestService';
 
 const AdminDashboard = () => {
   const { t } = useLanguage();
-  const [stats, setStats] = useState({ totalSchedules: 0, monthSchedules: 0, totalReservations: 0, confirmedReservations: 0 });
+  const [stats, setStats] = useState({ totalSchedules: 0, monthSchedules: 0, totalReservations: 0, confirmedReservations: 0, pendingLectureRequests: 0 });
   const [recentReservations, setRecentReservations] = useState([]);
   const [loading, setLoading] = useState(true);
 
@@ -18,17 +19,19 @@ const AdminDashboard = () => {
       const year = now.getFullYear();
       const month = now.getMonth() + 1;
 
-      const [monthSchedules, reservationStats, allReservations] = await Promise.all([
+      const [monthSchedules, reservationStats, allReservations, lrStats] = await Promise.all([
         getSchedules(year, month),
         getReservationStats(),
-        getAllReservations()
+        getAllReservations(),
+        getLectureRequestStats()
       ]);
 
       setStats({
         monthSchedules: monthSchedules.length,
         totalReservations: reservationStats.total,
         confirmedReservations: reservationStats.confirmed,
-        cancelledReservations: reservationStats.cancelled
+        cancelledReservations: reservationStats.cancelled,
+        pendingLectureRequests: lrStats.pending
       });
 
       setRecentReservations(allReservations.slice(0, 5));
@@ -83,6 +86,12 @@ const AdminDashboard = () => {
               value={stats.cancelledReservations || 0}
               color="red"
             />
+            <StatsCard
+              icon={<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" width="24" height="24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" /><polyline points="14 2 14 8 20 8" /><line x1="16" y1="13" x2="8" y2="13" /><line x1="16" y1="17" x2="8" y2="17" /></svg>}
+              label={t('lectureRequest.pendingRequests')}
+              value={stats.pendingLectureRequests || 0}
+              color="blue"
+            />
           </div>
 
           <div className="admin-quick-links">
@@ -93,6 +102,10 @@ const AdminDashboard = () => {
             <Link to="/admin/reservations" className="admin-quick-link">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" width="20" height="20"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" /><polyline points="14 2 14 8 20 8" /><line x1="16" y1="13" x2="8" y2="13" /><line x1="16" y1="17" x2="8" y2="17" /></svg>
               {t('admin.manageReservations')}
+            </Link>
+            <Link to="/admin/lecture-requests" className="admin-quick-link">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" width="20" height="20"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" /><polyline points="14 2 14 8 20 8" /><line x1="12" y1="18" x2="12" y2="12" /><line x1="9" y1="15" x2="12" y2="12" /><line x1="15" y1="15" x2="12" y2="12" /></svg>
+              {t('lectureRequest.adminManage')}
             </Link>
           </div>
 
