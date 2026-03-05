@@ -20,6 +20,7 @@ const AdminDashboard = lazy(() => import('../pages/admin/AdminDashboard'));
 const ScheduleManage = lazy(() => import('../pages/admin/ScheduleManage'));
 const ReservationManage = lazy(() => import('../pages/admin/ReservationManage'));
 const LectureRequestManage = lazy(() => import('../pages/admin/LectureRequestManage'));
+const MemberManage = lazy(() => import('../pages/admin/MemberManage'));
 const NotFound = lazy(() => import('../pages/NotFound'));
 
 const Loading = () => (
@@ -63,6 +64,7 @@ const PublicLayout = () => {
             <Route path="/admin/schedules" element={<AdminGuard><ScheduleManage /></AdminGuard>} />
             <Route path="/admin/reservations" element={<AdminGuard><ReservationManage /></AdminGuard>} />
             <Route path="/admin/lecture-requests" element={<AdminGuard><LectureRequestManage /></AdminGuard>} />
+            <Route path="/admin/members" element={<AdminGuard><MemberManage /></AdminGuard>} />
 
             {/* 404 */}
             <Route path="*" element={<NotFound />} />

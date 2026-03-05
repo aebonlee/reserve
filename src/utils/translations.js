@@ -164,7 +164,18 @@ export const translations = {
       reservationList: '예약자 목록',
       actions: '관리',
       scheduleName: '강의명',
-      searchPlaceholder: '이름, 이메일, 강의명 검색...'
+      searchPlaceholder: '이름, 이메일, 강의명 검색...',
+      manageMembers: '회원 관리',
+      manageMembersDesc: '사이트 가입 회원을 관리합니다',
+      totalMembers: '전체 회원',
+      memberRole: '일반 회원',
+      adminRole: '관리자',
+      memberSearchPlaceholder: '이름, 이메일 검색...',
+      noMembers: '가입된 회원이 없습니다.',
+      memberName: '이름',
+      memberEmail: '이메일',
+      memberRoleLabel: '역할',
+      memberJoinDate: '가입일'
     },
     instructor: {
       pageTitle: '강사 소개',
@@ -427,7 +438,18 @@ export const translations = {
       reservationList: 'Reservation List',
       actions: 'Actions',
       scheduleName: 'Lecture',
-      searchPlaceholder: 'Search by name, email, lecture...'
+      searchPlaceholder: 'Search by name, email, lecture...',
+      manageMembers: 'Manage Members',
+      manageMembersDesc: 'Manage site registered members',
+      totalMembers: 'Total Members',
+      memberRole: 'Member',
+      adminRole: 'Admin',
+      memberSearchPlaceholder: 'Search by name, email...',
+      noMembers: 'No registered members.',
+      memberName: 'Name',
+      memberEmail: 'Email',
+      memberRoleLabel: 'Role',
+      memberJoinDate: 'Joined'
     },
     instructor: {
       pageTitle: 'Instructor',
