@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom';
 import { useLanguage } from '../../contexts/LanguageContext';
+import { getCategoryClass } from '../../utils/categories';
 
 const ScheduleCard = ({ schedule }) => {
   const { t, language } = useLanguage();
@@ -34,7 +35,7 @@ const ScheduleCard = ({ schedule }) => {
           {statusLabels[schedule.status] || schedule.status}
         </span>
         {schedule.category && (
-          <span className="schedule-category">{schedule.category}</span>
+          <span className={`schedule-category ${getCategoryClass(schedule.category)}`}>{schedule.category}</span>
         )}
       </div>
       <h4 className="schedule-card-title">{schedule.title}</h4>

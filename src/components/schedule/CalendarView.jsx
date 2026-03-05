@@ -1,7 +1,8 @@
 import { useState } from 'react';
 import { useLanguage } from '../../contexts/LanguageContext';
+import { getCategoryClass } from '../../utils/categories';
 
-const CalendarView = ({ schedules = [], year, month, onMonthChange, onDateClick }) => {
+const CalendarView = ({ schedules = [], year, month, onMonthChange, onDateClick, dailyHours = {} }) => {
   const { t, language } = useLanguage();
   const [selectedDate, setSelectedDate] = useState(null);
 
@@ -53,18 +54,19 @@ const CalendarView = ({ schedules = [], year, month, onMonthChange, onDateClick 
     const hasSchedule = scheduleDates[dateStr] && scheduleDates[dateStr].length > 0;
     const isToday = dateStr === todayStr;
     const isSelected = dateStr === selectedDate;
+    const isDateFull = (dailyHours[dateStr] || 0) >= 5;
 
     cells.push(
       <div
         key={day}
-        className={`calendar-cell${hasSchedule ? ' has-schedule' : ''}${isToday ? ' today' : ''}${isSelected ? ' selected' : ''}`}
+        className={`calendar-cell${hasSchedule ? ' has-schedule' : ''}${isToday ? ' today' : ''}${isSelected ? ' selected' : ''}${isDateFull ? ' date-full' : ''}`}
         onClick={() => handleDateClick(day)}
       >
         <span className="calendar-day">{day}</span>
         {hasSchedule && (
           <div className="calendar-dots">
             {scheduleDates[dateStr].slice(0, 3).map((s, i) => (
-              <span key={i} className={`calendar-dot-marker status-${s.status}`} />
+              <span key={i} className={`calendar-dot-marker ${getCategoryClass(s.category)} status-${s.status}`} />
             ))}
           </div>
         )}

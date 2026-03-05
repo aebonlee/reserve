@@ -126,6 +126,33 @@
 .calendar-dot-marker.status-closed { background: #F59E0B; }
 .calendar-dot-marker.status-cancelled { background: #EF4444; }
 
+/* Category Dot Colors */
+.calendar-dot-marker.cat-university { background: #1E40AF; }
+.calendar-dot-marker.cat-corp-offline { background: #166534; }
+.calendar-dot-marker.cat-corp-online { background: #5B21B6; }
+.calendar-dot-marker.cat-special-offline { background: #92400E; }
+.calendar-dot-marker.cat-special-online { background: #9D174D; }
+
+/* Date Full - 5시간 이상 예약불가 */
+.calendar-cell.date-full {
+  background: rgba(239, 68, 68, 0.12);
+}
+.calendar-cell.date-full:hover:not(.empty) {
+  background: rgba(239, 68, 68, 0.2);
+}
+
+/* Category Filter Button Colors */
+.category-filter-btn.cat-university.active,
+.category-filter-btn.cat-university:hover { background: #1E40AF; color: white; border-color: #1E40AF; }
+.category-filter-btn.cat-corp-offline.active,
+.category-filter-btn.cat-corp-offline:hover { background: #166534; color: white; border-color: #166534; }
+.category-filter-btn.cat-corp-online.active,
+.category-filter-btn.cat-corp-online:hover { background: #5B21B6; color: white; border-color: #5B21B6; }
+.category-filter-btn.cat-special-offline.active,
+.category-filter-btn.cat-special-offline:hover { background: #92400E; color: white; border-color: #92400E; }
+.category-filter-btn.cat-special-online.active,
+.category-filter-btn.cat-special-online:hover { background: #9D174D; color: white; border-color: #9D174D; }
+
 /* Calendar Layout */
 .calendar-layout {
   display: grid;
@@ -291,6 +318,13 @@
   background: var(--bg-light-gray);
   color: var(--text-secondary);
 }
+
+/* Category Badge Colors */
+.schedule-category.cat-university { background: #DBEAFE; color: #1E40AF; }
+.schedule-category.cat-corp-offline { background: #DCFCE7; color: #166534; }
+.schedule-category.cat-corp-online { background: #EDE9FE; color: #5B21B6; }
+.schedule-category.cat-special-offline { background: #FEF3C7; color: #92400E; }
+.schedule-category.cat-special-online { background: #FCE7F3; color: #9D174D; }
 
 .schedule-card-title {
   font-size: 17px;
@@ -504,3 +538,25 @@
 [data-theme="dark"] .calendar-cell.selected {
   background: rgba(74, 143, 231, 0.12);
 }
+
+/* Dark Mode - Category Badge Colors */
+[data-theme="dark"] .schedule-category.cat-university { background: #1E3A5F; color: #93C5FD; }
+[data-theme="dark"] .schedule-category.cat-corp-offline { background: #064E3B; color: #6EE7B7; }
+[data-theme="dark"] .schedule-category.cat-corp-online { background: #3B0764; color: #C4B5FD; }
+[data-theme="dark"] .schedule-category.cat-special-offline { background: #78350F; color: #FCD34D; }
+[data-theme="dark"] .schedule-category.cat-special-online { background: #831843; color: #F9A8D4; }
+
+/* Dark Mode - Date Full */
+[data-theme="dark"] .calendar-cell.date-full {
+  background: rgba(239, 68, 68, 0.18);
+}
+[data-theme="dark"] .calendar-cell.date-full:hover:not(.empty) {
+  background: rgba(239, 68, 68, 0.28);
+}
+
+/* Dark Mode - Category Dot Colors */
+[data-theme="dark"] .calendar-dot-marker.cat-university { background: #60A5FA; }
+[data-theme="dark"] .calendar-dot-marker.cat-corp-offline { background: #34D399; }
+[data-theme="dark"] .calendar-dot-marker.cat-corp-online { background: #A78BFA; }
+[data-theme="dark"] .calendar-dot-marker.cat-special-offline { background: #FBBF24; }
+[data-theme="dark"] .calendar-dot-marker.cat-special-online { background: #F472B6; }

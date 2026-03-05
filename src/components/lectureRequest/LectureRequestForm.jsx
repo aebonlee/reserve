@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { useLanguage } from '../../contexts/LanguageContext';
+import { CATEGORIES } from '../../utils/categories';
 import DatePicker from './DatePicker';
 
 const LectureRequestForm = ({ onSubmit, loading }) => {
@@ -90,7 +91,12 @@ const LectureRequestForm = ({ onSubmit, loading }) => {
         <div className="form-row">
           <div className="form-group">
             <label>{t('lectureRequest.category')}</label>
-            <input type="text" name="category" value={form.category} onChange={handleChange} />
+            <select name="category" value={form.category} onChange={handleChange}>
+              <option value="">{t('schedule.allCategories')}</option>
+              {CATEGORIES.map(c => (
+                <option key={c.key} value={c.label}>{c.label}</option>
+              ))}
+            </select>
           </div>
           <div className="form-group">
             <label>{t('lectureRequest.expectedParticipants')}</label>

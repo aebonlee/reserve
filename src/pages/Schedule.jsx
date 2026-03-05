@@ -3,7 +3,8 @@ import { useLanguage } from '../contexts/LanguageContext';
 import SEOHead from '../components/SEOHead';
 import CalendarView from '../components/schedule/CalendarView';
 import ScheduleCard from '../components/schedule/ScheduleCard';
-import { getSchedules } from '../utils/scheduleService';
+import { getSchedules, getDailyScheduleHours } from '../utils/scheduleService';
+import { getCategoryClass, CATEGORY_LABELS } from '../utils/categories';
 
 const Schedule = () => {
   const { t } = useLanguage();
@@ -16,12 +17,17 @@ const Schedule = () => {
   const [selectedDateSchedules, setSelectedDateSchedules] = useState(null);
   const [selectedDate, setSelectedDate] = useState(null);
   const [categoryFilter, setCategoryFilter] = useState('all');
+  const [dailyHours, setDailyHours] = useState({});
 
   useEffect(() => {
     const load = async () => {
       setLoading(true);
-      const data = await getSchedules(year, month);
+      const [data, hours] = await Promise.all([
+        getSchedules(year, month),
+        getDailyScheduleHours(year, month)
+      ]);
       setSchedules(data);
+      setDailyHours(hours);
       setLoading(false);
     };
     load();
@@ -39,7 +45,7 @@ const Schedule = () => {
     setSelectedDateSchedules(daySchedules);
   };
 
-  const categories = ['all', ...new Set(schedules.map(s => s.category).filter(Boolean))];
+  const categories = ['all', ...CATEGORY_LABELS];
   const filteredSchedules = categoryFilter === 'all'
     ? schedules
     : schedules.filter(s => s.category === categoryFilter);
@@ -79,19 +85,17 @@ const Schedule = () => {
                 {t('schedule.listView')}
               </button>
             </div>
-            {categories.length > 1 && (
-              <div className="category-filters">
-                {categories.map(cat => (
-                  <button
-                    key={cat}
-                    className={`category-filter-btn${categoryFilter === cat ? ' active' : ''}`}
-                    onClick={() => setCategoryFilter(cat)}
-                  >
-                    {cat === 'all' ? t('schedule.allCategories') : cat}
-                  </button>
-                ))}
-              </div>
-            )}
+            <div className="category-filters">
+              {categories.map(cat => (
+                <button
+                  key={cat}
+                  className={`category-filter-btn${categoryFilter === cat ? ' active' : ''} ${cat !== 'all' ? getCategoryClass(cat) : ''}`}
+                  onClick={() => setCategoryFilter(cat)}
+                >
+                  {cat === 'all' ? t('schedule.allCategories') : cat}
+                </button>
+              ))}
+            </div>
           </div>
 
           {loading ? (
@@ -106,6 +110,7 @@ const Schedule = () => {
                 month={month}
                 onMonthChange={handleMonthChange}
                 onDateClick={handleDateClick}
+                dailyHours={dailyHours}
               />
               {selectedDateSchedules !== null && (
                 <div className="calendar-day-schedules">

@@ -7,6 +7,7 @@ import SEOHead from '../components/SEOHead';
 import ReservationForm from '../components/schedule/ReservationForm';
 import { getScheduleById, getDateTotalHours } from '../utils/scheduleService';
 import { createReservation, checkExistingReservation } from '../utils/reservationService';
+import { getCategoryClass } from '../utils/categories';
 
 const ScheduleDetail = () => {
   const { id } = useParams();
@@ -125,7 +126,7 @@ const ScheduleDetail = () => {
                   {schedule.category && (
                     <div className="detail-item">
                       <span className="detail-label">{t('schedule.category')}</span>
-                      <span className="detail-value">{schedule.category}</span>
+                      <span className={`schedule-category ${getCategoryClass(schedule.category)}`}>{schedule.category}</span>
                     </div>
                   )}
                   <div className="detail-item">

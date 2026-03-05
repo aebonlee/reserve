@@ -108,7 +108,12 @@ export const translations = {
       listView: '리스트',
       allCategories: '전체',
       noSchedules: '등록된 일정이 없습니다.',
-      noSchedulesDay: '이 날짜에 일정이 없습니다.'
+      noSchedulesDay: '이 날짜에 일정이 없습니다.',
+      categoryUniversity: '대학강의',
+      categoryCorpOffline: '기업 대면강의',
+      categoryCorpOnline: '기업 온라인강의',
+      categorySpecialOffline: '특강 - 대면',
+      categorySpecialOnline: '특강 - 온라인'
     },
     reservation: {
       title: '예약하기',
@@ -366,7 +371,12 @@ export const translations = {
       listView: 'List',
       allCategories: 'All',
       noSchedules: 'No schedules available.',
-      noSchedulesDay: 'No schedules on this day.'
+      noSchedulesDay: 'No schedules on this day.',
+      categoryUniversity: 'University Lecture',
+      categoryCorpOffline: 'Corporate (In-person)',
+      categoryCorpOnline: 'Corporate (Online)',
+      categorySpecialOffline: 'Special Lecture (In-person)',
+      categorySpecialOnline: 'Special Lecture (Online)'
     },
     reservation: {
       title: 'Make a Reservation',
