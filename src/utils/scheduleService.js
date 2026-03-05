@@ -72,6 +72,36 @@ export const getUpcomingSchedules = async (limit = 4) => {
 };
 
 /**
+ * 날짜별 총 강의 시간(시간 단위) 계산
+ * 반환: { '2026-03-06': 6.5, '2026-03-13': 3, ... }
+ */
+export const getDailyScheduleHours = async (year, month) => {
+  const schedules = await getSchedules(year, month);
+  const hours = {};
+
+  schedules.forEach(s => {
+    if (!s.date || !s.start_time || !s.end_time) return;
+    const [sh, sm] = s.start_time.split(':').map(Number);
+    const [eh, em] = s.end_time.split(':').map(Number);
+    const duration = (eh + em / 60) - (sh + sm / 60);
+    if (duration > 0) {
+      hours[s.date] = (hours[s.date] || 0) + duration;
+    }
+  });
+
+  return hours;
+};
+
+/**
+ * 특정 날짜의 총 강의 시간 조회
+ */
+export const getDateTotalHours = async (dateStr) => {
+  const [year, month] = dateStr.split('-').map(Number);
+  const hours = await getDailyScheduleHours(year, month);
+  return hours[dateStr] || 0;
+};
+
+/**
  * 일정 생성 (관리자)
  */
 export const createSchedule = async (data) => {

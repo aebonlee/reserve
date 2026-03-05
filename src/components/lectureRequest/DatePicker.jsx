@@ -1,11 +1,23 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useLanguage } from '../../contexts/LanguageContext';
+import { getDailyScheduleHours } from '../../utils/scheduleService';
+
+const MAX_DAILY_HOURS = 5;
 
 const DatePicker = ({ selectedDates = [], onChange }) => {
-  const { language } = useLanguage();
+  const { t, language } = useLanguage();
   const now = new Date();
   const [year, setYear] = useState(now.getFullYear());
   const [month, setMonth] = useState(now.getMonth() + 1);
+  const [dailyHours, setDailyHours] = useState({});
+
+  useEffect(() => {
+    const load = async () => {
+      const hours = await getDailyScheduleHours(year, month);
+      setDailyHours(hours);
+    };
+    load();
+  }, [year, month]);
 
   const daysInMonth = new Date(year, month, 0).getDate();
   const firstDayOfWeek = new Date(year, month - 1, 1).getDay();
@@ -33,6 +45,7 @@ const DatePicker = ({ selectedDates = [], onChange }) => {
   const toggleDate = (day) => {
     const dateStr = `${year}-${String(month).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
     if (dateStr < todayStr) return;
+    if ((dailyHours[dateStr] || 0) >= MAX_DAILY_HOURS) return;
     const next = selectedDates.includes(dateStr)
       ? selectedDates.filter(d => d !== dateStr)
       : [...selectedDates, dateStr].sort();
@@ -58,14 +71,17 @@ const DatePicker = ({ selectedDates = [], onChange }) => {
     const isPast = dateStr < todayStr;
     const isToday = dateStr === todayStr;
     const isSelected = selectedDates.includes(dateStr);
+    const isFull = (dailyHours[dateStr] || 0) >= MAX_DAILY_HOURS;
 
     cells.push(
       <div
         key={day}
-        className={`calendar-cell${isPast ? ' past' : ''}${isToday ? ' today' : ''}${isSelected ? ' selected' : ''}`}
-        onClick={() => !isPast && toggleDate(day)}
+        className={`calendar-cell${isPast ? ' past' : ''}${isToday ? ' today' : ''}${isSelected ? ' selected' : ''}${isFull ? ' full' : ''}`}
+        onClick={() => !isPast && !isFull && toggleDate(day)}
+        title={isFull ? (language === 'ko' ? `${MAX_DAILY_HOURS}시간 이상 예약됨` : `${MAX_DAILY_HOURS}+ hours scheduled`) : ''}
       >
         {day}
+        {isFull && <span className="calendar-full-dot" />}
       </div>
     );
   }
@@ -93,6 +109,9 @@ const DatePicker = ({ selectedDates = [], onChange }) => {
       <div className="calendar-grid">
         {cells}
       </div>
+      <p className="lr-datepicker-hint">
+        {t('lectureRequest.maxHoursHint')}
+      </p>
       {selectedDates.length > 0 && (
         <div className="lr-selected-dates">
           {selectedDates.map(d => (

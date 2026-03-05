@@ -5,7 +5,7 @@ import { useLanguage } from '../contexts/LanguageContext';
 import { useToast } from '../contexts/ToastContext';
 import SEOHead from '../components/SEOHead';
 import ReservationForm from '../components/schedule/ReservationForm';
-import { getScheduleById } from '../utils/scheduleService';
+import { getScheduleById, getDateTotalHours } from '../utils/scheduleService';
 import { createReservation, checkExistingReservation } from '../utils/reservationService';
 
 const ScheduleDetail = () => {
@@ -18,14 +18,19 @@ const ScheduleDetail = () => {
   const [reserving, setReserving] = useState(false);
   const [existingReservation, setExistingReservation] = useState(null);
   const [reservationDone, setReservationDone] = useState(false);
+  const [dateFull, setDateFull] = useState(false);
 
   useEffect(() => {
     const load = async () => {
       const data = await getScheduleById(id);
       setSchedule(data);
-      if (data && user) {
-        const existing = await checkExistingReservation(id, user.id);
-        setExistingReservation(existing);
+      if (data) {
+        const totalHours = await getDateTotalHours(data.date);
+        setDateFull(totalHours >= 5);
+        if (user) {
+          const existing = await checkExistingReservation(id, user.id);
+          setExistingReservation(existing);
+        }
       }
       setLoading(false);
     };
@@ -83,7 +88,7 @@ const ScheduleDetail = () => {
     ? schedule.capacity - (schedule.current_count || 0)
     : null;
   const isFull = remaining !== null && remaining <= 0;
-  const canReserve = schedule.status === 'open' && !isFull && !existingReservation && !reservationDone;
+  const canReserve = schedule.status === 'open' && !isFull && !existingReservation && !reservationDone && !dateFull;
 
   return (
     <>
@@ -171,7 +176,7 @@ const ScheduleDetail = () => {
                   </div>
                 ) : !canReserve ? (
                   <div className="reservation-closed">
-                    <p>{isFull ? t('schedule.full') : t('schedule.notAvailable')}</p>
+                    <p>{dateFull ? t('schedule.dateFull') : isFull ? t('schedule.full') : t('schedule.notAvailable')}</p>
                   </div>
                 ) : (
                   <ReservationForm onSubmit={handleReservation} loading={reserving} />
