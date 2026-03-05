@@ -1,62 +1,33 @@
 /**
  * 사이트 설정 파일
- * 하위 사이트의 브랜드, 메뉴, 푸터 등을 정의합니다.
- * 이 파일만 수정하면 Navbar/Footer가 자동으로 반영됩니다.
+ * 네비게이션, 푸터, 브랜드 등 사이트 전반 설정
  */
 
 const site = {
-  // 사이트 기본 정보
-  name: 'DreamIT Books',
-  nameKo: '드림아이티 출판사',
-  description: 'DreamIT Biz 출판사 - 도서, 전자출판, 간행물',
-  url: 'https://books.dreamitbiz.com',
+  name: 'Reserve',
+  nameKo: '강의 예약',
+  description: 'Reserve - 강의 일정 관리 및 예약 사이트',
+  url: 'https://reserve.example.com',
 
-  // 부모 사이트
-  parentSite: {
-    name: 'DreamIT Biz',
-    url: 'https://www.dreamitbiz.com'
-  },
-
-  // 브랜드 로고 텍스트
   brand: {
     parts: [
-      { text: 'Dream', className: 'brand-dream' },
-      { text: 'IT', className: 'brand-it' },
-      { text: 'Books', className: 'brand-biz' }
+      { text: 'Re', className: 'brand-dream' },
+      { text: 'serve', className: 'brand-it' }
     ]
   },
 
-  // 테마 컬러 (meta theme-color)
   themeColor: '#0046C8',
 
-  // 네비게이션 메뉴
-  // dropdown이 있으면 서브메뉴, 없으면 단일 링크
   menuItems: [
     { path: '/', labelKey: 'nav.home' },
-    {
-      labelKey: 'site.nav.books',
-      path: '/books',
-      activePath: '/books',
-      dropdown: [
-        { path: '/books/it', labelKey: 'site.nav.itBooks' },
-        { path: '/books/education', labelKey: 'site.nav.eduBooks' }
-      ]
-    },
-    { path: '/shop', labelKey: 'shop.title', activePath: '/shop' }
+    { path: '/schedule', labelKey: 'nav.schedule', activePath: '/schedule' },
+    { path: '/my-reservations', labelKey: 'nav.myReservations', activePath: '/my-reservations', auth: true },
+    { path: '/admin', labelKey: 'nav.admin', activePath: '/admin', admin: true }
   ],
 
-  // 푸터 바로가기 링크
   footerLinks: [
     { path: '/', labelKey: 'nav.home' },
-    { path: '/books', labelKey: 'site.nav.books' },
-    { path: '/shop', labelKey: 'shop.title' }
-  ],
-
-  // Family Site 목록 (부모 사이트 + 형제 사이트)
-  familySites: [
-    { name: 'DreamIT Biz (본사이트)', url: 'https://www.dreamitbiz.com' },
-    { name: 'AHP 연구 플랫폼', url: 'https://ahp-basic.dreamitbiz.com' },
-    { name: '핵심역량 자가측정', url: 'https://competency.dreamitbiz.com' }
+    { path: '/schedule', labelKey: 'nav.schedule' }
   ]
 };
 

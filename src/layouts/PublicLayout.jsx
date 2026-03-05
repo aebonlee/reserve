@@ -1,19 +1,21 @@
 import { lazy, Suspense } from 'react';
 import { Routes, Route } from 'react-router-dom';
 import AuthGuard from '../components/AuthGuard';
+import AdminGuard from '../components/common/AdminGuard';
 import Navbar from '../components/layout/Navbar';
 import Footer from '../components/layout/Footer';
 
-// 페이지 lazy import
 const Home = lazy(() => import('../pages/Home'));
+const Schedule = lazy(() => import('../pages/Schedule'));
+const ScheduleDetail = lazy(() => import('../pages/ScheduleDetail'));
+const MyReservations = lazy(() => import('../pages/MyReservations'));
 const Login = lazy(() => import('../pages/Login'));
 const Register = lazy(() => import('../pages/Register'));
 const ForgotPassword = lazy(() => import('../pages/ForgotPassword'));
 const MyPage = lazy(() => import('../pages/MyPage'));
-const Cart = lazy(() => import('../pages/Cart'));
-const Checkout = lazy(() => import('../pages/Checkout'));
-const OrderConfirmation = lazy(() => import('../pages/OrderConfirmation'));
-const OrderHistory = lazy(() => import('../pages/OrderHistory'));
+const AdminDashboard = lazy(() => import('../pages/admin/AdminDashboard'));
+const ScheduleManage = lazy(() => import('../pages/admin/ScheduleManage'));
+const ReservationManage = lazy(() => import('../pages/admin/ReservationManage'));
 const NotFound = lazy(() => import('../pages/NotFound'));
 
 const Loading = () => (
@@ -32,25 +34,23 @@ const PublicLayout = () => {
             {/* Home */}
             <Route path="/" element={<Home />} />
 
+            {/* Schedule */}
+            <Route path="/schedule" element={<Schedule />} />
+            <Route path="/schedule/:id" element={<ScheduleDetail />} />
+
+            {/* Reservations */}
+            <Route path="/my-reservations" element={<AuthGuard><MyReservations /></AuthGuard>} />
+
             {/* Auth */}
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
             <Route path="/forgot-password" element={<ForgotPassword />} />
             <Route path="/mypage" element={<AuthGuard><MyPage /></AuthGuard>} />
-            <Route path="/mypage/orders" element={<AuthGuard><OrderHistory /></AuthGuard>} />
 
-            {/* Shop */}
-            <Route path="/cart" element={<Cart />} />
-            <Route path="/checkout" element={<Checkout />} />
-            <Route path="/order-confirmation" element={<OrderConfirmation />} />
-
-            {/*
-              사이트 전용 페이지를 여기에 추가하세요.
-              예:
-              const Books = lazy(() => import('../pages/Books'));
-              <Route path="/books" element={<Books />} />
-              <Route path="/books/:category" element={<BookCategory />} />
-            */}
+            {/* Admin */}
+            <Route path="/admin" element={<AdminGuard><AdminDashboard /></AdminGuard>} />
+            <Route path="/admin/schedules" element={<AdminGuard><ScheduleManage /></AdminGuard>} />
+            <Route path="/admin/reservations" element={<AdminGuard><ReservationManage /></AdminGuard>} />
 
             {/* 404 */}
             <Route path="*" element={<NotFound />} />
