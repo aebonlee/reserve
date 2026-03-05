@@ -4,6 +4,7 @@ export const translations = {
       home: '홈',
       schedule: '강의일정',
       lectureRequest: '강의요청',
+      instructor: '강사소개',
       myReservations: '내 예약',
       admin: '관리자'
     },
@@ -159,6 +160,22 @@ export const translations = {
       scheduleName: '강의명',
       searchPlaceholder: '이름, 이메일, 강의명 검색...'
     },
+    instructor: {
+      pageTitle: '강사 소개',
+      pageSubtitle: '전문 강사를 소개합니다',
+      name: '홍길동',
+      role: '수석 강사',
+      bio: 'IT 분야에서 다양한 경험을 쌓아온 전문 강사입니다. 웹 개발, 데이터 분석, 클라우드 등 다양한 분야의 강의를 진행하고 있습니다.',
+      specialties: '웹 개발, 데이터 분석, 클라우드, AI/ML, 프로젝트 관리',
+      specialtiesTitle: '전문 분야',
+      career: 'IT 기업 수석 엔지니어 (10년)|대학교 겸임교수 (5년)|기업 맞춤 강의 다수 진행|공공기관 디지털 역량 교육',
+      careerTitle: '주요 경력',
+      certifications: '정보처리기사|AWS Solutions Architect|PMP (Project Management Professional)|SQLD (데이터베이스)',
+      certificationsTitle: '자격/인증',
+      contactTitle: '연락처',
+      email: 'instructor@dreamitbiz.com',
+      phone: '010-0000-0000'
+    },
     lectureRequest: {
       pageTitle: '강의 요청',
       pageSubtitle: '원하는 강의를 요청해 주세요',
@@ -242,6 +259,7 @@ export const translations = {
       home: 'Home',
       schedule: 'Schedule',
       lectureRequest: 'Request',
+      instructor: 'Instructor',
       myReservations: 'My Reservations',
       admin: 'Admin'
     },
@@ -396,6 +414,22 @@ export const translations = {
       actions: 'Actions',
       scheduleName: 'Lecture',
       searchPlaceholder: 'Search by name, email, lecture...'
+    },
+    instructor: {
+      pageTitle: 'Instructor',
+      pageSubtitle: 'Meet our professional instructor',
+      name: 'Gildong Hong',
+      role: 'Senior Instructor',
+      bio: 'A professional instructor with extensive experience in the IT field. Conducts lectures on various topics including web development, data analysis, cloud, and more.',
+      specialties: 'Web Development, Data Analysis, Cloud, AI/ML, Project Management',
+      specialtiesTitle: 'Specialties',
+      career: 'Senior Engineer at IT Company (10 years)|Adjunct Professor (5 years)|Numerous corporate training sessions|Public institution digital competency training',
+      careerTitle: 'Career',
+      certifications: 'Engineer Information Processing|AWS Solutions Architect|PMP (Project Management Professional)|SQLD (Database)',
+      certificationsTitle: 'Certifications',
+      contactTitle: 'Contact',
+      email: 'instructor@dreamitbiz.com',
+      phone: '010-0000-0000'
     },
     lectureRequest: {
       pageTitle: 'Lecture Requests',

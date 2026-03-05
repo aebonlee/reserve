@@ -13,6 +13,7 @@ const Login = lazy(() => import('../pages/Login'));
 const Register = lazy(() => import('../pages/Register'));
 const ForgotPassword = lazy(() => import('../pages/ForgotPassword'));
 const MyPage = lazy(() => import('../pages/MyPage'));
+const Instructor = lazy(() => import('../pages/Instructor'));
 const LectureRequest = lazy(() => import('../pages/LectureRequest'));
 const LectureRequestSubmit = lazy(() => import('../pages/LectureRequestSubmit'));
 const AdminDashboard = lazy(() => import('../pages/admin/AdminDashboard'));
@@ -40,6 +41,9 @@ const PublicLayout = () => {
             {/* Schedule */}
             <Route path="/schedule" element={<Schedule />} />
             <Route path="/schedule/:id" element={<ScheduleDetail />} />
+
+            {/* Instructor */}
+            <Route path="/instructor" element={<Instructor />} />
 
             {/* Lecture Requests */}
             <Route path="/lecture-request" element={<LectureRequest />} />

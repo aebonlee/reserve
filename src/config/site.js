@@ -22,6 +22,7 @@ const site = {
     { path: '/', labelKey: 'nav.home' },
     { path: '/schedule', labelKey: 'nav.schedule', activePath: '/schedule' },
     { path: '/lecture-request', labelKey: 'nav.lectureRequest', activePath: '/lecture-request' },
+    { path: '/instructor', labelKey: 'nav.instructor', activePath: '/instructor' },
     { path: '/my-reservations', labelKey: 'nav.myReservations', activePath: '/my-reservations', auth: true },
     { path: '/admin', labelKey: 'nav.admin', activePath: '/admin', admin: true }
   ],
@@ -29,7 +30,8 @@ const site = {
   footerLinks: [
     { path: '/', labelKey: 'nav.home' },
     { path: '/schedule', labelKey: 'nav.schedule' },
-    { path: '/lecture-request', labelKey: 'nav.lectureRequest' }
+    { path: '/lecture-request', labelKey: 'nav.lectureRequest' },
+    { path: '/instructor', labelKey: 'nav.instructor' }
   ]
 };
 
