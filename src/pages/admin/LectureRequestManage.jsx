@@ -59,7 +59,11 @@ const LectureRequestManage = () => {
     if (!approveTarget) return;
     setProcessing(true);
     try {
-      await approveLectureRequest(approveTarget.id, scheduleData);
+      const dates = approveTarget.preferred_dates?.length > 0
+        ? approveTarget.preferred_dates
+        : [scheduleData.date];
+      const { date, ...commonData } = scheduleData;
+      await approveLectureRequest(approveTarget.id, commonData, dates.length > 0 ? dates : [date]);
       setApproveTarget(null);
       setExpandedId(null);
       await loadData();
@@ -237,9 +241,23 @@ const LectureRequestManage = () => {
         <div className="lr-modal-overlay" onClick={() => !processing && setApproveTarget(null)}>
           <div className="lr-modal" onClick={e => e.stopPropagation()}>
             <h3>{t('lectureRequest.approveTitle')}</h3>
-            <p style={{ fontSize: '14px', color: 'var(--text-secondary)', marginBottom: '20px' }}>
+            <p style={{ fontSize: '14px', color: 'var(--text-secondary)', marginBottom: '12px' }}>
               {t('lectureRequest.approveDesc')}
             </p>
+            {approveTarget.preferred_dates?.length > 1 && (
+              <div style={{ background: 'rgba(0,70,200,0.06)', borderRadius: '8px', padding: '12px 16px', marginBottom: '16px' }}>
+                <p style={{ fontSize: '13px', fontWeight: 600, color: 'var(--primary-blue)', marginBottom: '8px' }}>
+                  {approveTarget.preferred_dates.length}{t('lectureRequest.batchCreateNotice')}
+                </p>
+                <div style={{ display: 'flex', flexWrap: 'wrap', gap: '6px' }}>
+                  {approveTarget.preferred_dates.map((d, i) => (
+                    <span key={i} style={{ fontSize: '12px', padding: '3px 10px', background: 'rgba(0,70,200,0.1)', borderRadius: '12px', color: 'var(--primary-blue)' }}>
+                      {d}
+                    </span>
+                  ))}
+                </div>
+              </div>
+            )}
             <ScheduleForm
               schedule={buildPrefilledSchedule(approveTarget)}
               onSubmit={handleApprove}

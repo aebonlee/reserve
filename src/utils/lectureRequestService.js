@@ -104,23 +104,27 @@ export const submitLectureRequest = async (formData) => {
 };
 
 /**
- * 강의 요청 승인 → 스케줄 자동 생성
+ * 강의 요청 승인 → 스케줄 자동 생성 (복수 날짜 지원)
  */
-export const approveLectureRequest = async (id, scheduleData) => {
+export const approveLectureRequest = async (id, scheduleData, dates) => {
   const client = getSupabase();
   if (!client) throw new Error('Supabase not configured');
 
-  // 1. 스케줄 생성
-  const schedule = await createSchedule(scheduleData);
+  // 1. 각 날짜에 대해 스케줄 생성
+  const schedules = [];
+  for (const date of dates) {
+    const schedule = await createSchedule({ ...scheduleData, date });
+    schedules.push(schedule);
+  }
 
-  // 2. 요청 상태 업데이트
+  // 2. 요청 상태 업데이트 (첫 번째 스케줄 ID 저장)
   const { data: user } = await client.auth.getUser();
 
   const { error } = await client
     .from('lecture_requests')
     .update({
       status: 'approved',
-      created_schedule_id: schedule.id,
+      created_schedule_id: schedules[0].id,
       reviewed_by: user?.user?.id || null,
       reviewed_at: new Date().toISOString(),
       updated_at: new Date().toISOString()
@@ -128,7 +132,7 @@ export const approveLectureRequest = async (id, scheduleData) => {
     .eq('id', id);
 
   if (error) throw error;
-  return schedule;
+  return schedules;
 };
 
 /**
