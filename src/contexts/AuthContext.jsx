@@ -20,7 +20,13 @@ export const AuthProvider = ({ children }) => {
     // signup_domain 또는 role이 미설정이면 자동 초기화
     if (p) {
       const updates = {};
-      if (!p.signup_domain) updates.signup_domain = window.location.hostname;
+      const currentDomain = window.location.hostname;
+      if (!p.signup_domain) updates.signup_domain = currentDomain;
+      // 현재 도메인이 visited_sites에 없으면 자동 추가
+      const sites = Array.isArray(p.visited_sites) ? p.visited_sites : [];
+      if (!sites.includes(currentDomain)) {
+        updates.visited_sites = [...sites, currentDomain];
+      }
       if (!p.role || p.role === 'user') updates.role = 'member';
       if (Object.keys(updates).length > 0) {
         try {
@@ -72,6 +78,13 @@ export const AuthProvider = ({ children }) => {
       setUser(u);
       if (u) {
         loadProfile(u);
+        // 로그인 시 last_sign_in_at 업데이트
+        if (event === 'SIGNED_IN') {
+          client.from('user_profiles')
+            .update({ last_sign_in_at: new Date().toISOString() })
+            .eq('id', u.id)
+            .then(() => {});
+        }
       } else {
         setProfile(null);
       }
