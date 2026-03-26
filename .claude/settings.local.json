@@ -1,0 +1,8 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(cmd //c \"dir D:\\\\reserve\")",
+      "Bash(cmd //c \"if exist D:\\\\reserve echo EXISTS\")"
+    ]
+  }
+}
