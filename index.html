@@ -13,6 +13,11 @@
     <meta property="og:description" content="강의 일정 관리 및 예약 서비스 - 다양한 강의 일정을 확인하고 간편하게 예약하세요" />
     <meta property="og:url" content="https://reserve.dreamitbiz.com" />
     <meta property="og:image" content="https://reserve.dreamitbiz.com/og-image.png" />
+    <meta property="og:locale" content="ko_KR" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta name="robots" content="index, follow" />
+    <link rel="canonical" href="https://reserve.dreamitbiz.com/" />
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content="Reserve | 강의 일정 예약" />
     <meta name="twitter:description" content="강의 일정 관리 및 예약 서비스 - 다양한 강의 일정을 확인하고 간편하게 예약하세요" />
@@ -24,15 +29,17 @@
   </head>
   <body>
     <div id="root"></div>
-    <script>
-      // GitHub Pages SPA redirect handler
-      (function(){
-        var redirect = sessionStorage.redirect;
-        delete sessionStorage.redirect;
-        if (redirect && redirect !== location.href) {
-          history.replaceState(null, null, redirect);
+    <script type="text/javascript">
+      (function(l) {
+        if (l.search[1] === '/') {
+          var decoded = l.search.slice(1).split('&').map(function(s) {
+            return s.replace(/~and~/g, '&')
+          }).join('?');
+          window.history.replaceState(null, null,
+            l.pathname.slice(0, -1) + decoded + l.hash
+          );
         }
-      })();
+      }(window.location))
     </script>
     <script type="module" src="/src/main.jsx"></script>
   </body>
