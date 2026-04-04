@@ -1,6 +1,6 @@
 /* ============================================
-   사이트 전용 스타일
-   하위 사이트에 맞게 이 파일을 수정하세요
+   Reserve - Site-Specific Styles
+   Calendar/Reservation System Enhancement
    ============================================ */
 
 /* Welcome Section */
@@ -27,4 +27,360 @@
 /* Section base */
 .section {
   padding: 4rem 0;
+}
+
+/* ── Home Page Feature Section ── */
+.section .schedule-grid {
+  margin-bottom: 24px;
+}
+
+/* ── Link Reset ── */
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+/* ── Selection Color ── */
+::selection {
+  background: rgba(0, 70, 200, 0.15);
+  color: var(--text-primary);
+}
+
+/* ── Focus Visible ── */
+:focus-visible {
+  outline: 2px solid var(--primary-blue);
+  outline-offset: 2px;
+}
+
+button:focus-visible {
+  outline: 2px solid var(--primary-blue);
+  outline-offset: 2px;
+}
+
+/* ── Smooth Scrollbar ── */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--bg-light-gray);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--border-medium);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--text-light);
+}
+
+/* ── Calendar Cell Polish ── */
+.calendar-cell.has-schedule {
+  font-weight: 600;
+}
+
+.calendar-cell.has-schedule:hover:not(.empty) {
+  background: rgba(0, 70, 200, 0.06);
+  border-radius: var(--radius-sm);
+}
+
+/* ── Schedule Card Enhancement ── */
+.schedule-card {
+  position: relative;
+  overflow: hidden;
+}
+
+.schedule-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: var(--primary-gradient);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.schedule-card:hover::before {
+  opacity: 1;
+}
+
+/* ── Stats Card Hover Glow ── */
+.stats-card--blue:hover {
+  border-color: rgba(0, 70, 200, 0.3);
+}
+
+.stats-card--green:hover {
+  border-color: rgba(16, 185, 129, 0.3);
+}
+
+.stats-card--red:hover {
+  border-color: rgba(239, 68, 68, 0.3);
+}
+
+/* ── Admin Quick Link Enhancement ── */
+.admin-quick-link::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 3px;
+  height: 0;
+  background: var(--primary-blue);
+  border-radius: 0 2px 2px 0;
+  transition: height 0.3s ease;
+}
+
+.admin-quick-link {
+  position: relative;
+  overflow: hidden;
+}
+
+.admin-quick-link:hover::before {
+  height: 60%;
+}
+
+/* ── Calendar View Enhancement ── */
+.calendar-view {
+  position: relative;
+}
+
+.calendar-view::before {
+  content: '';
+  position: absolute;
+  top: -1px;
+  left: 20px;
+  right: 20px;
+  height: 3px;
+  background: var(--primary-gradient);
+  border-radius: 0 0 2px 2px;
+}
+
+/* ── Reservation Card Enhancement ── */
+.reservation-card {
+  position: relative;
+  overflow: hidden;
+}
+
+.reservation-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  width: 3px;
+  background: var(--primary-gradient);
+}
+
+/* ── Detail Card Enhancement ── */
+.detail-card {
+  position: relative;
+  overflow: hidden;
+}
+
+.detail-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: var(--primary-gradient);
+}
+
+/* ── Reservation Badge Enhancement ── */
+.reservation-badge {
+  letter-spacing: 0.3px;
+}
+
+/* ── Empty State Enhancement ── */
+.empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 80px 20px;
+}
+
+.empty-state svg {
+  color: var(--text-light);
+  margin-bottom: 16px;
+  opacity: 0.5;
+}
+
+.empty-state p {
+  font-size: 16px;
+  color: var(--text-secondary);
+  margin-bottom: 16px;
+}
+
+/* ── Form Enhancement ── */
+.schedule-form,
+.reservation-form {
+  position: relative;
+}
+
+.schedule-form .form-group input:hover,
+.schedule-form .form-group textarea:hover,
+.schedule-form .form-group select:hover,
+.reservation-form .form-group input:hover,
+.reservation-form .form-group textarea:hover {
+  border-color: var(--border-medium);
+}
+
+/* ── Btn disabled state ── */
+.btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none !important;
+  box-shadow: none !important;
+}
+
+/* ── Instructor Section Enhancement ── */
+.instructor-header {
+  position: relative;
+  overflow: hidden;
+}
+
+.instructor-header::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: var(--primary-gradient);
+}
+
+/* ── Transition for interactive elements ── */
+input, select, textarea, button, a {
+  font-family: inherit;
+}
+
+/* ── Loading state center helper ── */
+.loading-center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 40vh;
+  padding: 60px 20px;
+}
+
+/* ── Schedule Status Colors in Calendar Day Schedules ── */
+.calendar-day-schedules .schedule-card + .schedule-card {
+  margin-top: 12px;
+}
+
+/* ── Pagination ── */
+.pagination {
+  display: flex;
+  justify-content: center;
+  gap: 4px;
+  margin-top: 32px;
+}
+
+.pagination-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border: 1px solid var(--border-light);
+  border-radius: var(--radius-sm);
+  background: var(--bg-white);
+  color: var(--text-secondary);
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: var(--transition-base);
+}
+
+.pagination-btn:hover {
+  border-color: var(--primary-blue);
+  color: var(--primary-blue);
+}
+
+.pagination-btn.active {
+  background: var(--primary-blue);
+  border-color: var(--primary-blue);
+  color: white;
+}
+
+.pagination-btn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+/* ── Responsive: Site-specific ── */
+@media (max-width: 768px) {
+  .section {
+    padding: 3rem 0;
+  }
+
+  .calendar-view::before {
+    left: 12px;
+    right: 12px;
+  }
+
+  .empty-state {
+    padding: 48px 16px;
+  }
+}
+
+@media (max-width: 480px) {
+  .section {
+    padding: 2rem 0;
+  }
+}
+
+/* ── Dark Mode: Site-specific ── */
+[data-theme="dark"] .schedule-card::before {
+  background: var(--primary-gradient);
+}
+
+[data-theme="dark"] .calendar-view::before {
+  background: var(--primary-gradient);
+}
+
+[data-theme="dark"] .reservation-card::before {
+  background: var(--primary-gradient);
+}
+
+[data-theme="dark"] .detail-card::before {
+  background: var(--primary-gradient);
+}
+
+[data-theme="dark"] .instructor-header::before {
+  background: var(--primary-gradient);
+}
+
+[data-theme="dark"] ::-webkit-scrollbar-track {
+  background: var(--bg-medium-gray);
+}
+
+[data-theme="dark"] ::-webkit-scrollbar-thumb {
+  background: var(--border-medium);
+}
+
+[data-theme="dark"] ::-webkit-scrollbar-thumb:hover {
+  background: var(--text-light);
+}
+
+[data-theme="dark"] ::selection {
+  background: rgba(74, 143, 231, 0.25);
+}
+
+[data-theme="dark"] .pagination-btn {
+  background: var(--bg-light-gray);
+  border-color: var(--border-medium);
+  color: var(--text-secondary);
+}
+
+[data-theme="dark"] .pagination-btn.active {
+  background: var(--primary-blue);
+  border-color: var(--primary-blue);
+  color: white;
 }
