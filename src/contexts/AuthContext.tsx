@@ -1,7 +1,7 @@
 import { createContext, useContext, useState, useEffect, useCallback } from 'react';
 import type { ReactNode } from 'react';
 import type { User } from '@supabase/supabase-js';
-import getSupabase from '../utils/supabase';
+import getSupabase, { setSharedSession, getSharedSession, clearSharedSession } from '../utils/supabase';
 import { getProfile, updateProfile, signOut as authSignOut } from '../utils/auth';
 import { ADMIN_EMAILS } from '../config/admin';
 import type { UserProfile, AccountBlock } from '../types';
@@ -89,7 +89,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }): React.React
     }
 
     // onAuthStateChange 하나로 통합 — INITIAL_SESSION은 OAuth 코드 교환 완료 후 발생
-    const { data: { subscription } } = client.auth.onAuthStateChange((event, session) => {
+    const { data: { subscription } } = client.auth.onAuthStateChange(async (event, session) => {
       const u = session?.user ?? null;
       setUser(u);
       if (u) {
@@ -104,10 +104,23 @@ export const AuthProvider = ({ children }: { children: ReactNode }): React.React
       } else {
         setProfile(null);
       }
-      // INITIAL_SESSION: 초기 로드 완료 (OAuth 콜백 코드 교환 포함)
+      // SSO: INITIAL_SESSION에서 세션 없으면 공유 쿠키로 복원
       if (event === 'INITIAL_SESSION') {
+        if (!session) {
+          const rt = getSharedSession();
+          if (rt) {
+            try {
+              const { data } = await client.auth.refreshSession({ refresh_token: rt });
+              if (!data.session) clearSharedSession();
+            } catch { clearSharedSession(); }
+          }
+        }
         setLoading(false);
       }
+
+      // SSO: 쿠키 동기화
+      if (session?.refresh_token) setSharedSession(session.refresh_token);
+      if (event === 'SIGNED_OUT') clearSharedSession();
     });
 
     // 안전장치: INITIAL_SESSION이 5초 내 안 오면 loading 해제
