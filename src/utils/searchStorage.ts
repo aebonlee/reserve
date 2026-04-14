@@ -32,19 +32,19 @@ export async function searchAll(query: string): Promise<SearchResults> {
 
   const [blogRes, boardRes, galleryRes] = await Promise.all([
     client
-      .from('blog_posts')
+      .from('rsv_blog_posts')
       .select('id, title, title_en, excerpt, excerpt_en, category, category_en, date')
       .or(`title.ilike.${pattern},title_en.ilike.${pattern},excerpt.ilike.${pattern},excerpt_en.ilike.${pattern}`)
       .order('id', { ascending: false })
       .limit(5),
     client
-      .from('board_posts')
+      .from('rsv_board_posts')
       .select('id, title, category, author, date')
       .or(`title.ilike.${pattern},content.ilike.${pattern}`)
       .order('id', { ascending: false })
       .limit(5),
     client
-      .from('gallery_items')
+      .from('rsv_gallery_items')
       .select('id, title, title_en, description, description_en, category, date')
       .or(`title.ilike.${pattern},title_en.ilike.${pattern},description.ilike.${pattern},description_en.ilike.${pattern}`)
       .order('id', { ascending: false })

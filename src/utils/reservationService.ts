@@ -9,7 +9,7 @@ export const createReservation = async (scheduleId: string, userData: Reservatio
   if (!client) throw new Error('Supabase not configured');
 
   const { data, error } = await client
-    .from('reservations')
+    .from('rsv_reservations')
     .insert({
       schedule_id: scheduleId,
       user_id: userData.user_id,
@@ -39,13 +39,13 @@ export const cancelReservation = async (id: string): Promise<Reservation> => {
 
   // 예약 정보를 먼저 가져옴
   const { data: reservation } = await client
-    .from('reservations')
+    .from('rsv_reservations')
     .select('schedule_id')
     .eq('id', id)
     .single();
 
   const { data, error } = await client
-    .from('reservations')
+    .from('rsv_reservations')
     .update({ status: 'cancelled', updated_at: new Date().toISOString() })
     .eq('id', id)
     .select()
@@ -69,8 +69,8 @@ export const getMyReservations = async (userId: string): Promise<Reservation[]> 
   if (!client) return [];
 
   const { data, error } = await client
-    .from('reservations')
-    .select('*, schedules(*)')
+    .from('rsv_reservations')
+    .select('*, rsv_schedules(*)')
     .eq('user_id', userId)
     .order('created_at', { ascending: false });
 
@@ -89,7 +89,7 @@ export const getReservationsBySchedule = async (scheduleId: string): Promise<Res
   if (!client) return [];
 
   const { data, error } = await client
-    .from('reservations')
+    .from('rsv_reservations')
     .select('*')
     .eq('schedule_id', scheduleId)
     .order('created_at', { ascending: false });
@@ -109,8 +109,8 @@ export const getAllReservations = async (): Promise<Reservation[]> => {
   if (!client) return [];
 
   const { data, error } = await client
-    .from('reservations')
-    .select('*, schedules(title, date, start_time)')
+    .from('rsv_reservations')
+    .select('*, rsv_schedules(title, date, start_time)')
     .order('created_at', { ascending: false });
 
   if (error) {
@@ -128,7 +128,7 @@ export const getReservationStats = async (): Promise<ReservationStats> => {
   if (!client) return { total: 0, confirmed: 0, cancelled: 0 };
 
   const { data, error } = await client
-    .from('reservations')
+    .from('rsv_reservations')
     .select('status');
 
   if (error) {
@@ -152,7 +152,7 @@ export const checkExistingReservation = async (scheduleId: string, userId: strin
   if (!client) return null;
 
   const { data, error } = await client
-    .from('reservations')
+    .from('rsv_reservations')
     .select('*')
     .eq('schedule_id', scheduleId)
     .eq('user_id', userId)

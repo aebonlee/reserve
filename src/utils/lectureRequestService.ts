@@ -10,7 +10,7 @@ export const getLectureRequests = async (statusFilter: string | null = null): Pr
   if (!client) return [];
 
   let query = client
-    .from('lecture_requests')
+    .from('rsv_lecture_requests')
     .select('*')
     .order('created_at', { ascending: false });
 
@@ -35,7 +35,7 @@ export const getLectureRequestById = async (id: string): Promise<LectureRequest 
   if (!client) return null;
 
   const { data, error } = await client
-    .from('lecture_requests')
+    .from('rsv_lecture_requests')
     .select('*')
     .eq('id', id)
     .single();
@@ -55,7 +55,7 @@ export const getLectureRequestStats = async (): Promise<LectureRequestStats> => 
   if (!client) return { total: 0, pending: 0, approved: 0, rejected: 0 };
 
   const { data, error } = await client
-    .from('lecture_requests')
+    .from('rsv_lecture_requests')
     .select('status');
 
   if (error) {
@@ -80,7 +80,7 @@ export const submitLectureRequest = async (formData: LectureRequestFormData): Pr
   if (!client) throw new Error('Supabase not configured');
 
   const { data, error } = await client
-    .from('lecture_requests')
+    .from('rsv_lecture_requests')
     .insert({
       requester_name: formData.requester_name,
       requester_email: formData.requester_email,
@@ -124,7 +124,7 @@ export const approveLectureRequest = async (id: string, scheduleData: Omit<Sched
   const { data: user } = await client.auth.getUser();
 
   const { error } = await client
-    .from('lecture_requests')
+    .from('rsv_lecture_requests')
     .update({
       status: 'approved',
       created_schedule_id: schedules[0]?.id ?? null,
@@ -148,7 +148,7 @@ export const rejectLectureRequest = async (id: string, adminNotes: string): Prom
   const { data: user } = await client.auth.getUser();
 
   const { error } = await client
-    .from('lecture_requests')
+    .from('rsv_lecture_requests')
     .update({
       status: 'rejected',
       admin_notes: adminNotes,
@@ -169,7 +169,7 @@ export const deleteLectureRequest = async (id: string): Promise<void> => {
   if (!client) throw new Error('Supabase not configured');
 
   const { error } = await client
-    .from('lecture_requests')
+    .from('rsv_lecture_requests')
     .delete()
     .eq('id', id);
 

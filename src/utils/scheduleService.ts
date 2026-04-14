@@ -13,7 +13,7 @@ export const getSchedules = async (year: number, month: number): Promise<Schedul
   const endDateStr = `${year}-${String(month).padStart(2, '0')}-${String(endDate.getDate()).padStart(2, '0')}`;
 
   const { data, error } = await client
-    .from('schedules')
+    .from('rsv_schedules')
     .select('*')
     .gte('date', startDate)
     .lte('date', endDateStr)
@@ -35,7 +35,7 @@ export const getScheduleById = async (id: string): Promise<Schedule | null> => {
   if (!client) return null;
 
   const { data, error } = await client
-    .from('schedules')
+    .from('rsv_schedules')
     .select('*')
     .eq('id', id)
     .single();
@@ -57,7 +57,7 @@ export const getUpcomingSchedules = async (limit: number = 4): Promise<Schedule[
   const today = new Date().toISOString().split('T')[0]!;
 
   const { data, error } = await client
-    .from('schedules')
+    .from('rsv_schedules')
     .select('*')
     .gte('date', today)
     .eq('status', 'open')
@@ -114,7 +114,7 @@ export const createSchedule = async (data: ScheduleInsert): Promise<Schedule> =>
   if (!client) throw new Error('Supabase not configured');
 
   const { data: schedule, error } = await client
-    .from('schedules')
+    .from('rsv_schedules')
     .insert(data)
     .select()
     .single();
@@ -131,7 +131,7 @@ export const updateSchedule = async (id: string, data: ScheduleUpdate): Promise<
   if (!client) throw new Error('Supabase not configured');
 
   const { data: schedule, error } = await client
-    .from('schedules')
+    .from('rsv_schedules')
     .update({ ...data, updated_at: new Date().toISOString() })
     .eq('id', id)
     .select()
@@ -149,7 +149,7 @@ export const deleteSchedule = async (id: string): Promise<void> => {
   if (!client) throw new Error('Supabase not configured');
 
   const { error } = await client
-    .from('schedules')
+    .from('rsv_schedules')
     .delete()
     .eq('id', id);
 
