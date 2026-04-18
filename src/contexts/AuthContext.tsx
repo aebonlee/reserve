@@ -6,6 +6,7 @@ import { getProfile, updateProfile, signOut as authSignOut } from '../utils/auth
 import { ADMIN_EMAILS } from '../config/admin';
 import type { UserProfile, AccountBlock } from '../types';
 import { useIdleTimeout } from '../hooks/useIdleTimeout';
+import ProfileCompleteModal from '../components/ProfileCompleteModal';
 
 interface AuthContextValue {
   user: User | null;
@@ -32,7 +33,27 @@ export const AuthProvider = ({ children }: { children: ReactNode }): React.React
       setProfile(null);
       return;
     }
-    const p = await getProfile(authUser.id);
+    let p = await getProfile(authUser.id);
+    // 프로필 미존재 시 자동 생성 (OAuth 첫 로그인 등)
+    if (!p) {
+      const client = getSupabase();
+      if (client) {
+        const meta = authUser.user_metadata || {};
+        const currentDomain = window.location.hostname;
+        const { data } = await client.from('user_profiles').insert({
+          id: authUser.id,
+          email: authUser.email || '',
+          name: meta.full_name || meta.name || '',
+          display_name: meta.full_name || meta.name || '',
+          phone: '',
+          provider: authUser.app_metadata?.provider || 'email',
+          signup_domain: currentDomain,
+          visited_sites: [currentDomain],
+          role: 'member',
+        }).select().single();
+        if (data) p = data;
+      }
+    }
     // signup_domain 또는 role이 미설정이면 자동 초기화
     if (p) {
       const updates: Record<string, unknown> = {};
@@ -156,6 +177,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }): React.React
   ].filter((e): e is string => Boolean(e)).map((e) => e.toLowerCase());
   const isAdmin = allEmails.some((e) => ADMIN_EMAILS.includes(e));
   const isLoggedIn = !!user;
+  const needsProfileCompletion = isLoggedIn && !!profile && (!profile.name || !profile.phone);
 
 
   // 10분 무동작 세션 타임아웃
@@ -180,6 +202,9 @@ export const AuthProvider = ({ children }: { children: ReactNode }): React.React
       clearAccountBlock: () => setAccountBlock(null),
     }}>
       {children}
+      {needsProfileCompletion && user && (
+        <ProfileCompleteModal user={user} onComplete={refreshProfile} />
+      )}
     </AuthContext.Provider>
   );
 };

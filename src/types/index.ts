@@ -115,6 +115,7 @@ export interface LectureRequestStats {
 export interface UserProfile {
   id: string;
   email: string | null;
+  name: string | null;
   display_name: string | null;
   full_name: string | null;
   avatar_url: string | null;
@@ -129,6 +130,7 @@ export interface UserProfile {
 }
 
 export interface ProfileUpdate {
+  name?: string;
   display_name?: string;
   avatar_url?: string;
   phone?: string;
